@@ -29,19 +29,23 @@ fi
 django-admin.py startproject $projectname
 cd $projectname/$projectname
 mkdir  static/ media/ apps/ templates/ apis/
+touch static/__init__.py media/__init__.py  apps/__init__.py templates/__init__.py  apis/__init__.py
 rm settings.py urls.py wsgi.py
-if [[ $djversion=="1.4" ]]; then
+
+if [[ $djversion == "1.4" ]]; then
     wget  http://conf.kitdevelop.com/etc/django/settings/django-1.4/settings.py 
     wget  http://conf.kitdevelop.com/etc/django/settings/django-1.4/urls.py
     wget  http://conf.kitdevelop.com/etc/django/settings/django-1.4/wsgi.py 
-elif [[ $djversion=="1.5" ]];then    
+elif [[ $djversion == "1.5" ]];then    
     wget  http://conf.kitdevelop.com/etc/django/settings/django-1.5/settings.py 
     wget  http://conf.kitdevelop.com/etc/django/settings/django-1.5/urls.py
     wget  http://conf.kitdevelop.com/etc/django/settings/django-1.5/wsgi.py 
-elif [[ $djversio=="1.6" ]];then   
+elif [[ $djversion == "1.6" ]];then   
     wget  http://conf.kitdevelop.com/etc/django/settings/django-1.6/settings.py 
     wget  http://conf.kitdevelop.com/etc/django/settings/django-1.6/urls.py
     wget  http://conf.kitdevelop.com/etc/django/settings/django-1.6/wsgi.py 
+else
+    echo "{Error}."
 fi    
-touch static/__init__.py media/__init__.py  apps/__init__.py templates/__init__.py  apis/__init__.py
+
 echo "{$projectname, DONE}."
