@@ -1,51 +1,61 @@
 #!bin/bash
 #by Junior Montilla
 
-clear
-echo "=============================="
-echo "= Initialize django project. ="
-echo "=============================="
+reset
+
+echo 
+echo "* django-initialize. *"
+echo
 sleep 3
+
 echo "Project name?"
 read projectname
-echo "django version?"
+echo 
+echo "Django version? (1.4, 1.5, 1.6)"
 read djversion
-mkdir $HOME/git/django/$projectname
+
+mkdir -p $HOME/git/django/$projectname/
+mkdir  $HOME/.django-templates/
 cd $HOME/git/django/$projectname/
-echo "======================================"
-echo "= Initialize virtualenv environment. ="
-echo "======================================"
+
+echo 
+echo "* Initialize virtualenv environment. *"
+echo 
+
 sleep 3
 virtualenv .env
 source .env/bin/activate
-echo "================================="
-echo "= Installing django==$djversion ="
-echo "================================="
-if [ $djversion == "1.7" ];then
-	pip install https://www.djangoproject.com/download/1.7c3/tarball/
-else
-    pip install django==$djversion
-fi
-django-admin.py startproject $projectname
-cd $projectname/$projectname
-mkdir  static/ media/ apps/ templates/ apis/
-touch static/__init__.py media/__init__.py  apps/__init__.py templates/__init__.py  apis/__init__.py
-rm settings.py urls.py wsgi.py
 
-if [[ $djversion == "1.4" ]]; then
-    wget  http://conf.kitdevelop.com/etc/django/settings/django-1.4/settings.py 
-    wget  http://conf.kitdevelop.com/etc/django/settings/django-1.4/urls.py
-    wget  http://conf.kitdevelop.com/etc/django/settings/django-1.4/wsgi.py 
-elif [[ $djversion == "1.5" ]];then    
-    wget  http://conf.kitdevelop.com/etc/django/settings/django-1.5/settings.py 
-    wget  http://conf.kitdevelop.com/etc/django/settings/django-1.5/urls.py
-    wget  http://conf.kitdevelop.com/etc/django/settings/django-1.5/wsgi.py 
-elif [[ $djversion == "1.6" ]];then   
-    wget  http://conf.kitdevelop.com/etc/django/settings/django-1.6/settings.py 
-    wget  http://conf.kitdevelop.com/etc/django/settings/django-1.6/urls.py
-    wget  http://conf.kitdevelop.com/etc/django/settings/django-1.6/wsgi.py 
-else
-    echo "{Error}."
-fi    
+echo 
+echo "* Installing django and starting project *"
+echo 
 
-echo "{$projectname, DONE}."
+if [ $djversion == "1.4" ];then
+        pip install django==1.4.5
+	django-admin.py startproject --template=file://$HOME/.django-templates/django-1.4-conf-templates.zip $projectname
+fi	
+
+cd  $projectname/
+
+echo
+echo "* initialize project as git repo *"
+echo
+wget  -q https://s3-us-west-2.amazonaws.com/conf.django-initialize/.gitignore
+git init
+
+echo 
+echo "*  Installing libraries          *"
+echo 
+cat ./requirements.txt
+echo
+pip install -r  ./requirements.txt
+
+echo 
+echo "*   Running  syncdb command      *"
+echo 
+python manage.py syncdb
+
+echo 
+echo "*   Running the server            *"
+echo 
+python manage.py runserver  
