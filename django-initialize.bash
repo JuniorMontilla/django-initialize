@@ -2,8 +2,6 @@
 #by Junior Montilla juniormontillaacosta[at]gmail[dot][com]
 
 TEMPLATE14=$HOME/.django-templates/django-1.4-conf-templates.zip
-projectname=$1
-djversion=$2
 
 reset
 
@@ -11,6 +9,13 @@ echo
 echo "* django-initialize. *"
 echo
 sleep 3
+
+echo "Project name?"
+read projectname
+echo 
+echo "Django version? (1.4, 1.5, 1.6)"
+read djversion
+echo
 
 mkdir -p $HOME/git/django/$projectname/
 mkdir -p  $HOME/.django-templates/
