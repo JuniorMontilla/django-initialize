@@ -1,5 +1,5 @@
 #!bin/bash
-#by Junior Montilla
+#by Junior Montilla juniormontillaacosta[at]gmail[dot][com]
 
 TEMPLATE14=$HOME/.django-templates/django-1.4-conf-templates.zip
 
